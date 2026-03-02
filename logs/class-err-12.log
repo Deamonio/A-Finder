@@ -1,0 +1,6 @@
+2026-03-02T12:35:55: [2026-03-02 12:35:55 +0000] [391315] [INFO] Starting gunicorn 25.1.0
+2026-03-02T12:35:55: [2026-03-02 12:35:55 +0000] [391315] [INFO] Listening at: http://127.0.0.1:4000 (391315)
+2026-03-02T12:35:55: [2026-03-02 12:35:55 +0000] [391315] [INFO] Using worker: sync
+2026-03-02T12:35:55: [2026-03-02 12:35:55 +0000] [391315] [INFO] Control socket listening at /home/ubuntu/afinder-class/gunicorn.ctl
+2026-03-02T12:35:55: [2026-03-02 12:35:55 +0000] [391380] [INFO] Booting worker with pid: 391380
+2026-03-02T12:35:55: [2026-03-02 12:35:55 +0000] [391381] [INFO] Booting worker with pid: 391381
