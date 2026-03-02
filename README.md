@@ -191,6 +191,37 @@ grade_management/
 | content | TEXT | 댓글 내용 |
 | created_at | DATETIME | 작성 일시 |
 
+### SQL 테이블 생성문
+
+```sql
+CREATE TABLE users (
+    student_id VARCHAR(10) PRIMARY KEY, -- 학번 (예: 20260001)
+    login_id VARCHAR(20) UNIQUE NOT NULL, -- 로그인용 아이디
+    password VARCHAR(255) NOT NULL,      -- 암호화된 비밀번호 저장용
+    name VARCHAR(20) NOT NULL,           -- 이름
+    phone VARCHAR(15),                   -- 연락처
+    email VARCHAR(50),                   -- 이메일
+    is_admin BOOLEAN DEFAULT FALSE       -- 관리자 여부 (True: 1, False: 0)
+);
+
+CREATE TABLE grades (
+    student_id VARCHAR(10) PRIMARY KEY, -- 학번 (users 테이블의 PK와 연결)
+    sql_score INT DEFAULT 0,            -- SQL 점수
+    network_score INT DEFAULT 0,        -- 네트워크 점수
+    programming_score INT DEFAULT 0,    -- 프로그래밍 점수
+    FOREIGN KEY (student_id) REFERENCES users(student_id) ON DELETE CASCADE
+);
+
+CREATE TABLE comments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id VARCHAR(10) NOT NULL, -- 작성자 학번
+    target_id VARCHAR(10) NOT NULL,  -- 어느 학생의 페이지에 달린 글인지 (본인 페이지)
+    content TEXT NOT NULL,           -- 내용
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (student_id) REFERENCES users(student_id) ON DELETE CASCADE
+);
+```
+
 ## 🔐 보안 기능
 
 - **비밀번호 해싱**: Werkzeug의 PBKDF2-SHA256 알고리즘 사용
