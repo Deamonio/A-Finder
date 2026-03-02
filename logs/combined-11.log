@@ -1,0 +1,6 @@
+2026-03-02T11:11:07: [2026-03-02 11:11:07 +0000] [368147] [INFO] Starting gunicorn 25.1.0
+2026-03-02T11:11:07: [2026-03-02 11:11:07 +0000] [368147] [INFO] Listening at: http://127.0.0.1:5000 (368147)
+2026-03-02T11:11:07: [2026-03-02 11:11:07 +0000] [368147] [INFO] Using worker: sync
+2026-03-02T11:11:07: [2026-03-02 11:11:07 +0000] [368147] [INFO] Control socket listening at /home/ubuntu/grade_management/gunicorn.ctl
+2026-03-02T11:11:07: [2026-03-02 11:11:07 +0000] [368150] [INFO] Booting worker with pid: 368150
+2026-03-02T11:11:07: [2026-03-02 11:11:07 +0000] [368151] [INFO] Booting worker with pid: 368151

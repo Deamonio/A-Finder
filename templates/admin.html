@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 센터 | A+ Finder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .comment-transition { transition: all 0.3s ease-in-out; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #e2e8f0; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen font-sans">
+
+    <div class="flex">
+        <div class="flex-1 p-8 md:p-12">
+            
+            <div class="flex justify-between items-center mb-10">
+                <a href="/afinder" class="flex items-center gap-3 hover:opacity-80 transition">
+                    <div class="bg-blue-600 text-white p-2.5 rounded-xl shadow-lg shadow-blue-200">
+                        <i class="fas fa-user-shield text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-black text-slate-800 tracking-tight italic">
+                            A+ <span class="text-blue-600 font-black">Finder</span> 
+                            <span class="ml-2 text-sm font-bold text-slate-400 uppercase tracking-widest">Admin</span>
+                        </h1>
+                        <p class="text-xs text-slate-400 font-bold">학생 성적 및 커뮤니케이션 통합 관리</p>
+                    </div>
+                </a>
+                <div class="flex items-center gap-4">
+                    <span class="text-sm font-bold text-slate-600 hidden md:block">{{ session['user_name'] }} 관리자님</span>
+                    <a href="{{ url_for('logout') }}" class="bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 px-5 py-2.5 rounded-xl text-sm font-bold transition flex items-center gap-2">
+                        <i class="fas fa-sign-out-alt"></i> 로그아웃
+                    </a>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest text-[10px]">Total Students</p>
+                    <p class="text-3xl font-black text-slate-800 mt-1">{{ users|length }} <span class="text-sm font-normal text-slate-400 text-base">명</span></p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 border-l-4 border-l-blue-500">
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest text-[10px]">Feedback Status</p>
+                    <p class="text-2xl font-black text-blue-600 mt-1">Real-time Connection</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest text-[10px]">System Status</p>
+                    <div class="flex items-center gap-2 mt-2">
+                        <span class="relative flex h-3 w-3">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                        </span>
+                        <span class="text-xl font-black text-emerald-500">Online</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white shadow-xl shadow-slate-200/50 rounded-[2.5rem] overflow-hidden border border-slate-100">
+                <div class="px-8 py-6 border-b border-slate-50 flex justify-between items-center bg-white">
+                    <h3 class="font-black text-slate-800 text-lg italic tracking-tight uppercase">Academic Records</h3>
+                    <div class="relative">
+                        <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-300 text-sm"></i>
+                        <input type="text" placeholder="학생 검색..." class="pl-10 pr-4 py-2 bg-slate-50 border-none rounded-full text-sm focus:ring-2 focus:ring-blue-500 transition w-64 outline-none">
+                    </div>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50/50">
+                                <th class="px-8 py-4 text-[11px] font-black text-slate-400 uppercase tracking-widest text-center">ID</th>
+                                <th class="px-8 py-4 text-[11px] font-black text-slate-400 uppercase tracking-widest">Name</th>
+                                <th class="px-8 py-4 text-[11px] font-black text-slate-400 uppercase tracking-widest text-center">SQL</th>
+                                <th class="px-8 py-4 text-[11px] font-black text-slate-400 uppercase tracking-widest text-center">Network</th>
+                                <th class="px-8 py-4 text-[11px] font-black text-slate-400 uppercase tracking-widest text-center">Python</th>
+                                <th class="px-8 py-4 text-[11px] font-black text-slate-400 uppercase tracking-widest text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            {% for user in users %}
+                            <form action="{{ url_for('edit_grade', student_id=user.student_id) }}" method="POST">
+                            <tr class="hover:bg-blue-50/40 transition-colors">
+                                <td class="px-8 py-5 text-center">
+                                    <span class="font-mono text-sm font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-lg">{{ user.student_id }}</span>
+                                </td>
+                                <td class="px-8 py-5">
+                                    <p class="font-bold text-slate-700 text-sm">{{ user.name }}</p>
+                                    <p class="text-[10px] text-slate-400 font-medium italic">Verified Student</p>
+                                </td>
+                                <td class="px-8 py-5 text-center">
+                                    <div class="inline-flex flex-col items-center">
+                                        <input type="number" name="sql" value="{{ user.grade.sql_score }}" class="w-16 bg-white border border-slate-200 rounded-lg px-2 py-1 text-center font-bold text-slate-700 focus:ring-2 focus:ring-blue-500 outline-none transition shadow-sm">
+                                        <span class="text-[9px] font-black mt-1 text-blue-500 uppercase">{{ get_grade(user.grade.sql_score) }}</span>
+                                    </div>
+                                </td>
+                                <td class="px-8 py-5 text-center">
+                                    <div class="inline-flex flex-col items-center">
+                                        <input type="number" name="network" value="{{ user.grade.network_score }}" class="w-16 bg-white border border-slate-200 rounded-lg px-2 py-1 text-center font-bold text-slate-700 focus:ring-2 focus:ring-emerald-500 outline-none transition shadow-sm">
+                                        <span class="text-[9px] font-black mt-1 text-emerald-500 uppercase">{{ get_grade(user.grade.network_score) }}</span>
+                                    </div>
+                                </td>
+                                <td class="px-8 py-5 text-center">
+                                    <div class="inline-flex flex-col items-center">
+                                        <input type="number" name="programming" value="{{ user.grade.programming_score }}" class="w-16 bg-white border border-slate-200 rounded-lg px-2 py-1 text-center font-bold text-slate-700 focus:ring-2 focus:ring-purple-500 outline-none transition shadow-sm">
+                                        <span class="text-[9px] font-black mt-1 text-purple-500 uppercase">{{ get_grade(user.grade.programming_score) }}</span>
+                                    </div>
+                                </td>
+                                <td class="px-8 py-5 text-center">
+                                    <div class="flex items-center justify-center gap-2">
+                                        <button type="submit" class="bg-slate-900 text-white hover:bg-blue-600 px-4 py-2 rounded-xl text-xs font-black transition-all active:scale-95 shadow-lg shadow-slate-100">저장</button>
+                                        <button type="button" onclick="toggleComments('{{ user.student_id }}')" class="bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white px-4 py-2 rounded-xl text-xs font-black transition-all">의견</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            </form>
+
+                            <tr id="comment-section-{{ user.student_id }}" class="hidden bg-slate-50/50">
+                                <td colspan="6" class="px-8 py-6">
+                                    <div class="max-w-3xl mx-auto bg-white rounded-3xl border border-slate-100 p-6 shadow-inner relative">
+                                        <h5 class="text-sm font-black text-slate-800 mb-6 flex items-center gap-2 uppercase tracking-tighter">
+                                            <i class="fas fa-comment-dots text-blue-500"></i> {{ user.name }} Student Feedback Loop
+                                        </h5>
+                                        
+                                        <div class="space-y-6 mb-6 max-h-72 overflow-y-auto pr-3 custom-scrollbar">
+                                            {% set cms = get_comments(user.student_id) %}
+                                            {% if cms %}
+                                                {% for c in cms %}
+                                                <div class="flex flex-col group {% if c.author.is_admin %} items-end {% else %} items-start {% endif %}">
+                                                    <div class="flex items-center gap-2 mb-1">
+                                                        <span class="text-[10px] font-bold text-slate-400 italic">{{ c.author.name }}</span>
+                                                        <span class="text-[9px] text-slate-300 font-mono">{{ c.created_at.strftime('%m-%d %H:%M') }}</span>
+                                                        
+                                                    <div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                                        {% if c.student_id == session['user_id'] %}
+                                                        <button onclick="showEditForm('{{ c.id }}')" class="inline-flex items-center gap-1.5 bg-blue-50 hover:bg-blue-100 text-blue-600 px-3 py-1.5 rounded-lg text-xs font-bold transition duration-200 border border-blue-200">
+                                                            <i class="fas fa-pen-to-square text-xs"></i> 수정
+                                                        </button>
+                                                        {% endif %}
+                                                        <form action="{{ url_for('delete_comment', comment_id=c.id) }}" method="POST" onsubmit="return confirm('정말 삭제하시겠습니까?');" style="display: inline;">
+                                                            <button type="submit" class="inline-flex items-center gap-1.5 bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-lg text-xs font-bold transition duration-200 border border-red-200">
+                                                                <i class="fas fa-trash text-xs"></i> 삭제
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                    </div>
+                                                    
+                                                    <div id="comment-text-{{ c.id }}" class="text-sm px-4 py-2.5 rounded-2xl max-w-md shadow-sm border border-transparent 
+                                                        {% if c.author.is_admin %} bg-blue-600 text-white rounded-tr-none {% else %} bg-slate-100 text-slate-600 rounded-tl-none {% endif %}">
+                                                        {{ c.content }}
+                                                    </div>
+
+                                                    <form id="edit-form-{{ c.id }}" action="{{ url_for('edit_comment', comment_id=c.id) }}" method="POST" class="hidden w-full max-w-md mt-3">
+                                                        <textarea name="content" required class="w-full bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none h-20 transition shadow-sm">{{ c.content }}</textarea>
+                                                        <div class="flex justify-end gap-2 mt-3">
+                                                            <button type="button" onclick="hideEditForm('{{ c.id }}')" class="px-4 py-2 rounded-lg text-xs font-bold text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 transition duration-200">
+                                                                <i class="fas fa-xmark mr-1"></i>취소
+                                                            </button>
+                                                            <button type="submit" class="px-4 py-2 rounded-lg text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 transition duration-200 shadow-lg shadow-blue-200 active:scale-95">
+                                                                <i class="fas fa-check mr-1"></i>저장하기
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                {% endfor %}
+                                            {% else %}
+                                                <p class="text-center py-6 text-xs text-slate-400 italic">No communication history found.</p>
+                                            {% endif %}
+                                        </div>
+
+                                        <form action="{{ url_for('add_comment', target_id=user.student_id) }}" method="POST" class="flex gap-2 border-t border-slate-50 pt-6">
+                                            <input type="text" name="content" required placeholder="답변을 입력하세요..." 
+                                                   class="flex-1 bg-slate-50 border-none rounded-2xl px-5 py-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition shadow-inner">
+                                            <button type="submit" class="bg-slate-900 text-white px-8 py-3 rounded-2xl text-xs font-black transition hover:bg-blue-600 shadow-xl active:scale-95">
+                                                SEND
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <p class="mt-12 text-center text-slate-300 text-[10px] font-bold uppercase tracking-[0.4em] italic">
+                A+ Finder Architecture Powered by Deamon Mesh
+            </p>
+        </div>
+    </div>
+
+    <script>
+    function toggleComments(studentId) {
+        const section = document.getElementById('comment-section-' + studentId);
+        section.classList.toggle('hidden');
+    }
+    function showEditForm(id) {
+        document.getElementById('comment-text-' + id).classList.add('hidden');
+        document.getElementById('edit-form-' + id).classList.remove('hidden');
+    }
+    function hideEditForm(id) {
+        document.getElementById('comment-text-' + id).classList.remove('hidden');
+        document.getElementById('edit-form-' + id).classList.add('hidden');
+    }
+    </script>
+</body>
+</html>

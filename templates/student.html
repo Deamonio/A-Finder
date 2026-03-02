@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내 성적표 | A+ Finder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* 부드러운 스크롤바 디자인 */
+        .overflow-y-auto::-webkit-scrollbar {
+            width: 4px;
+        }
+        .overflow-y-auto::-webkit-scrollbar-thumb {
+            background-color: #e2e8f0;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen font-sans">
+
+    <nav class="bg-white border-b border-slate-200 px-6 py-4">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <a href="/afinder" class="flex items-center gap-2 hover:opacity-80 transition">
+                <div class="bg-blue-600 text-white p-2 rounded-lg">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <span class="text-xl font-black tracking-tighter uppercase">A+ <span class="text-blue-600">Finder</span></span>
+            </a>
+            <div class="flex items-center gap-6">
+                <div class="hidden md:block text-right">
+                    <p class="text-xs text-slate-400 font-bold uppercase tracking-wider">Student Profile</p>
+                    <p class="text-sm font-bold text-slate-700">{{ session['user_name'] }} ({{ session['user_id'] }})</p>
+                </div>
+                <a href="{{ url_for('logout') }}" class="text-slate-400 hover:text-red-500 transition">
+                    <i class="fas fa-sign-out-alt text-xl"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto p-6 md:p-10">
+        <div class="mb-10">
+            <h2 class="text-3xl font-extrabold text-slate-900">반가워요, {{ session['user_name'] }}님! 👋</h2>
+            <p class="text-slate-500 mt-2">이번 학기 당신의 성적 분석 리포트입니다.</p>
+        </div>
+
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-3xl p-8 mb-10 text-white shadow-xl shadow-blue-200">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div>
+                    <p class="text-blue-100 font-medium">전체 과목 평균 점수</p>
+                    <h3 class="text-5xl font-black mt-1">
+                        {{ ((grade.sql_score + grade.network_score + grade.programming_score) / 3) | round(1) }} 
+                        <span class="text-2xl font-normal">/ 100</span>
+                    </h3>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 text-center min-w-[200px]">
+                    <p class="text-blue-100 text-sm italic">"조금만 더 힘내면 A+가 눈앞에 있어요!"</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 hover:shadow-md transition">
+                <div class="flex justify-between items-start mb-6">
+                    <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 text-xl">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <span class="text-xs font-bold px-3 py-1 bg-blue-100 text-blue-700 rounded-full uppercase">SQL</span>
+                </div>
+                <h4 class="text-lg font-bold text-slate-800">데이터베이스 실습</h4>
+                <div class="mt-4 flex items-center justify-between">
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-4xl font-black text-slate-900">{{ grade.sql_score }}</span>
+                        <span class="text-slate-400 font-medium text-sm">pts</span>
+                    </div>
+                    <div class="px-4 py-2 rounded-xl font-black text-xl 
+                        {% if get_grade(grade.sql_score) == 'A+' %} bg-yellow-100 text-yellow-600 border border-yellow-200
+                        {% elif 'A' in get_grade(grade.sql_score) %} bg-blue-100 text-blue-600
+                        {% elif 'B' in get_grade(grade.sql_score) %} bg-green-100 text-green-600
+                        {% else %} bg-slate-100 text-slate-500 {% endif %}">
+                        {{ get_grade(grade.sql_score) }}
+                    </div>
+                </div>
+                <div class="mt-6 w-full bg-slate-100 rounded-full h-2">
+                    <div class="bg-blue-600 h-2 rounded-full" style="width: {{ grade.sql_score }}%"></div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 hover:shadow-md transition">
+                <div class="flex justify-between items-start mb-6">
+                    <div class="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 text-xl">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <span class="text-xs font-bold px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full uppercase">Network</span>
+                </div>
+                <h4 class="text-lg font-bold text-slate-800">네트워크 아키텍처</h4>
+                <div class="mt-4 flex items-center justify-between">
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-4xl font-black text-slate-900">{{ grade.network_score }}</span>
+                        <span class="text-slate-400 font-medium text-sm">pts</span>
+                    </div>
+                    <div class="px-4 py-2 rounded-xl font-black text-xl 
+                        {% if get_grade(grade.network_score) == 'A+' %} bg-yellow-100 text-yellow-600 border border-yellow-200
+                        {% elif 'A' in get_grade(grade.network_score) %} bg-blue-100 text-blue-600
+                        {% elif 'B' in get_grade(grade.network_score) %} bg-green-100 text-green-600
+                        {% else %} bg-slate-100 text-slate-500 {% endif %}">
+                        {{ get_grade(grade.network_score) }}
+                    </div>
+                </div>
+                <div class="mt-6 w-full bg-slate-100 rounded-full h-2">
+                    <div class="bg-emerald-500 h-2 rounded-full" style="width: {{ grade.network_score }}%"></div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 hover:shadow-md transition">
+                <div class="flex justify-between items-start mb-6">
+                    <div class="w-12 h-12 bg-purple-50 rounded-2xl flex items-center justify-center text-purple-600 text-xl">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <span class="text-xs font-bold px-3 py-1 bg-purple-100 text-purple-700 rounded-full uppercase">Python</span>
+                </div>
+                <h4 class="text-lg font-bold text-slate-800">응용 프로그래밍</h4>
+                <div class="mt-4 flex items-center justify-between">
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-4xl font-black text-slate-900">{{ grade.programming_score }}</span>
+                        <span class="text-slate-400 font-medium text-sm">pts</span>
+                    </div>
+                    <div class="px-4 py-2 rounded-xl font-black text-xl 
+                        {% if get_grade(grade.programming_score) == 'A+' %} bg-yellow-100 text-yellow-600 border border-yellow-200
+                        {% elif 'A' in get_grade(grade.programming_score) %} bg-blue-100 text-blue-600
+                        {% elif 'B' in get_grade(grade.programming_score) %} bg-green-100 text-green-600
+                        {% else %} bg-slate-100 text-slate-500 {% endif %}">
+                        {{ get_grade(grade.programming_score) }}
+                    </div>
+                </div>
+                <div class="mt-6 w-full bg-slate-100 rounded-full h-2">
+                    <div class="bg-purple-500 h-2 rounded-full" style="width: {{ grade.programming_score }}%"></div>
+                </div>
+            </div>
+        </div>
+
+        <section class="mt-12 bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+            <div class="px-8 py-6 border-b border-slate-50 bg-slate-50/50 flex items-center gap-2">
+                <i class="fas fa-comments text-blue-600"></i>
+                <h3 class="font-bold text-slate-800">성적 관련 피드백 / 문의</h3>
+            </div>
+            
+            <div class="p-8 space-y-6">
+                {% set comments = get_comments(grade.student_id) %}
+                {% if comments %}
+                    <div class="space-y-6 max-h-[400px] overflow-y-auto pr-2">
+                        {% for comment in comments %}
+                        <div class="flex gap-4 group">
+                            <div class="w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 
+                                {% if comment.author.is_admin %} bg-slate-900 text-white {% else %} bg-blue-100 text-blue-600 {% endif %}">
+                                <i class="fas {% if comment.author.is_admin %} fa-user-shield {% else %} fa-user {% endif %} text-sm"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between mb-1">
+                                    <div class="flex items-center gap-2">
+                                        <span class="font-bold text-sm text-slate-800">
+                                            {{ comment.author.name }}
+                                            {% if comment.author.is_admin %}
+                                                <span class="ml-1 text-[10px] bg-slate-200 px-1.5 py-0.5 rounded text-slate-600 uppercase">Admin</span>
+                                            {% endif %}
+                                        </span>
+                                        <span class="text-[10px] text-slate-400">{{ comment.created_at.strftime('%Y-%m-%d %H:%M') }}</span>
+                                    </div>
+                                    
+                                    {% if session['user_id'] == comment.student_id or session['is_admin'] %}
+                                    <div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                        {% if session['user_id'] == comment.student_id %}
+                                        <button onclick="showEditForm('{{ comment.id }}')" class="inline-flex items-center gap-1.5 bg-blue-50 hover:bg-blue-100 text-blue-600 px-3 py-1.5 rounded-lg text-xs font-bold transition duration-200 border border-blue-200">
+                                            <i class="fas fa-pen-to-square text-xs"></i> 수정
+                                        </button>
+                                        {% endif %}
+                                        <form action="{{ url_for('delete_comment', comment_id=comment.id) }}" method="POST" onsubmit="return confirm('정말 삭제하시겠습니까?');" style="display: inline;">
+                                            <button type="submit" class="inline-flex items-center gap-1.5 bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-lg text-xs font-bold transition duration-200 border border-red-200">
+                                                <i class="fas fa-trash text-xs"></i> 삭제
+                                            </button>
+                                        </form>
+                                    </div>
+                                    {% endif %}
+                                </div>
+
+                                <div id="comment-display-{{ comment.id }}" class="bg-slate-50 rounded-2xl p-4 inline-block max-w-full border border-transparent hover:border-slate-100 transition shadow-sm">
+                                    <p class="text-sm text-slate-600 leading-relaxed">{{ comment.content }}</p>
+                                </div>
+
+                                <form id="edit-form-{{ comment.id }}" action="{{ url_for('edit_comment', comment_id=comment.id) }}" method="POST" class="hidden mt-3">
+                                    <textarea name="content" required class="w-full bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none h-24 transition shadow-sm">{{ comment.content }}</textarea>
+                                    <div class="flex justify-end gap-2 mt-3">
+                                        <button type="button" onclick="hideEditForm('{{ comment.id }}')" class="px-4 py-2 rounded-lg text-sm font-bold text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 transition duration-200">
+                                            <i class="fas fa-xmark mr-1"></i>취소
+                                        </button>
+                                        <button type="submit" class="px-4 py-2 rounded-lg text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 transition duration-200 shadow-lg shadow-blue-200 active:scale-95">
+                                            <i class="fas fa-check mr-1"></i>저장하기
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-10">
+                        <i class="fas fa-comment-slash text-slate-200 text-4xl mb-3"></i>
+                        <p class="text-slate-400 text-sm italic">아직 등록된 의견이 없습니다.</p>
+                    </div>
+                {% endif %}
+
+                <form action="{{ url_for('add_comment', target_id=grade.student_id) }}" method="POST" class="mt-8 pt-8 border-t border-slate-100">
+                    <div class="relative">
+                        <textarea name="content" required placeholder="성적에 대해 궁금한 점이나 의견을 남겨주세요." 
+                            class="w-full bg-slate-50 border-none rounded-2xl p-5 text-sm focus:ring-2 focus:ring-blue-500 outline-none resize-none h-32 transition shadow-inner"></textarea>
+                    </div>
+                    <div class="flex justify-end mt-4">
+                        <button type="submit" class="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold text-sm hover:bg-blue-700 transition shadow-lg shadow-blue-100 flex items-center gap-2 active:scale-95">
+                            <i class="fas fa-paper-plane text-xs"></i> 글 남기기
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+        
+        <p class="mt-12 text-center text-slate-400 text-[11px] uppercase tracking-widest">
+            데이터는 실시간으로 반영됩니다. 성적 정정 문의는 학과 사무실로 연락주세요. <br>
+            <span class="font-bold italic">© 2026 Deamon Software. All rights reserved.</span>
+        </p>
+    </main>
+
+    <script>
+        function showEditForm(id) {
+            document.getElementById('comment-display-' + id).classList.add('hidden');
+            document.getElementById('edit-form-' + id).classList.remove('hidden');
+        }
+        function hideEditForm(id) {
+            document.getElementById('comment-display-' + id).classList.remove('hidden');
+            document.getElementById('edit-form-' + id).classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
