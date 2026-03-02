@@ -4,3 +4,39 @@
 2026-03-02T11:11:07: [2026-03-02 11:11:07 +0000] [368147] [INFO] Control socket listening at /home/ubuntu/grade_management/gunicorn.ctl
 2026-03-02T11:11:07: [2026-03-02 11:11:07 +0000] [368150] [INFO] Booting worker with pid: 368150
 2026-03-02T11:11:07: [2026-03-02 11:11:07 +0000] [368151] [INFO] Booting worker with pid: 368151
+2026-03-02T12:15:39: [2026-03-02 12:15:39 +0000] [378607] [INFO] Starting gunicorn 25.1.0
+2026-03-02T12:15:39: [2026-03-02 12:15:39 +0000] [378607] [INFO] Listening at: http://127.0.0.1:5000 (378607)
+2026-03-02T12:15:39: [2026-03-02 12:15:39 +0000] [378607] [INFO] Using worker: sync
+2026-03-02T12:15:39: [2026-03-02 12:15:39 +0000] [378607] [INFO] Control socket listening at /home/ubuntu/grade_management/gunicorn.ctl
+2026-03-02T12:15:39: [2026-03-02 12:15:39 +0000] [378612] [INFO] Booting worker with pid: 378612
+2026-03-02T12:15:39: [2026-03-02 12:15:39 +0000] [378613] [INFO] Booting worker with pid: 378613
+2026-03-02T12:19:28: [2026-03-02 12:19:28 +0000] [378607] [INFO] Handling signal: int
+2026-03-02T12:19:28: [2026-03-02 12:19:28 +0000] [378612] [INFO] Worker exiting (pid: 378612)
+2026-03-02T12:19:28: [2026-03-02 12:19:28 +0000] [378613] [INFO] Worker exiting (pid: 378613)
+2026-03-02T12:19:28: [2026-03-02 12:19:28 +0000] [378607] [INFO] Shutting down: Master
+2026-03-02T12:19:29: [2026-03-02 12:19:29 +0000] [388293] [INFO] Starting gunicorn 25.1.0
+2026-03-02T12:19:29: [2026-03-02 12:19:29 +0000] [388293] [INFO] Listening at: http://127.0.0.1:5000 (388293)
+2026-03-02T12:19:29: [2026-03-02 12:19:29 +0000] [388293] [INFO] Using worker: sync
+2026-03-02T12:19:29: [2026-03-02 12:19:29 +0000] [388293] [INFO] Control socket listening at /home/ubuntu/grade_management/gunicorn.ctl
+2026-03-02T12:19:29: [2026-03-02 12:19:29 +0000] [388307] [INFO] Booting worker with pid: 388307
+2026-03-02T12:19:29: [2026-03-02 12:19:29 +0000] [388308] [INFO] Booting worker with pid: 388308
+2026-03-02T12:21:59: [2026-03-02 12:21:59 +0000] [388293] [INFO] Handling signal: int
+2026-03-02T12:21:59: [2026-03-02 12:21:59 +0000] [388307] [INFO] Worker exiting (pid: 388307)
+2026-03-02T12:21:59: [2026-03-02 12:21:59 +0000] [388308] [INFO] Worker exiting (pid: 388308)
+2026-03-02T12:21:59: [2026-03-02 12:21:59 +0000] [388293] [INFO] Shutting down: Master
+2026-03-02T12:22:00: [2026-03-02 12:22:00 +0000] [389082] [INFO] Starting gunicorn 25.1.0
+2026-03-02T12:22:00: [2026-03-02 12:22:00 +0000] [389082] [INFO] Listening at: http://127.0.0.1:5000 (389082)
+2026-03-02T12:22:00: [2026-03-02 12:22:00 +0000] [389082] [INFO] Using worker: sync
+2026-03-02T12:22:00: [2026-03-02 12:22:00 +0000] [389082] [INFO] Control socket listening at /home/ubuntu/grade_management/gunicorn.ctl
+2026-03-02T12:22:00: [2026-03-02 12:22:00 +0000] [389095] [INFO] Booting worker with pid: 389095
+2026-03-02T12:22:00: [2026-03-02 12:22:00 +0000] [389096] [INFO] Booting worker with pid: 389096
+2026-03-02T12:33:03: [2026-03-02 12:33:03 +0000] [389082] [INFO] Handling signal: int
+2026-03-02T12:33:03: [2026-03-02 12:33:03 +0000] [389095] [INFO] Worker exiting (pid: 389095)
+2026-03-02T12:33:03: [2026-03-02 12:33:03 +0000] [389096] [INFO] Worker exiting (pid: 389096)
+2026-03-02T12:33:03: [2026-03-02 12:33:03 +0000] [389082] [INFO] Shutting down: Master
+2026-03-02T12:33:04: [2026-03-02 12:33:04 +0000] [391160] [INFO] Starting gunicorn 25.1.0
+2026-03-02T12:33:04: [2026-03-02 12:33:04 +0000] [391160] [INFO] Listening at: http://127.0.0.1:5000 (391160)
+2026-03-02T12:33:04: [2026-03-02 12:33:04 +0000] [391160] [INFO] Using worker: sync
+2026-03-02T12:33:04: [2026-03-02 12:33:04 +0000] [391160] [INFO] Control socket listening at /home/ubuntu/grade_management/gunicorn.ctl
+2026-03-02T12:33:04: [2026-03-02 12:33:04 +0000] [391213] [INFO] Booting worker with pid: 391213
+2026-03-02T12:33:04: [2026-03-02 12:33:04 +0000] [391214] [INFO] Booting worker with pid: 391214

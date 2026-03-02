@@ -7,10 +7,20 @@ from datetime import datetime
 app = Flask(__name__)
 app.secret_key = 'deamon_mesh_secret_key'
 
-# --- Nginx 프록시 설정 핵심 ---
-# x_prefix=1을 설정하면 Nginx가 보낸 X-Forwarded-Prefix 헤더를 읽어 
-# url_for()가 자동으로 /afinder/를 붙여서 생성하게 해줍니다.
-app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
+# --- Nginx 프록시 설정 (서브도메인 방식) ---
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=0)
+
+# HTTPS 강제 설정
+app.config['PREFERRED_URL_SCHEME'] = 'https'
+app.config['SESSION_COOKIE_SECURE'] = True
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+
+# HTTPS 리다이렉트 (Nginx 뒤에서도 작동)
+@app.before_request
+def enforce_https():
+    if request.headers.get('X-Forwarded-Proto', 'http') == 'http':
+        return redirect(request.url.replace('http://', 'https://', 1), code=301)
 
 # MySQL 연결 설정 (사용자 정보에 맞춰 확인하세요)
 # DB 이름이 KBU_SW로 되어 있는데, 아까 school_db에서 바꾸셨다면 이대로 쓰시면 됩니다.

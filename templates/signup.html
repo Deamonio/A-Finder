@@ -5,7 +5,7 @@
     <div class="max-w-xl w-full bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
         <div class="md:w-1/3 bg-blue-600 p-8 text-white flex flex-col justify-between">
             <div>
-                <a href="/afinder" class="flex items-center gap-2 mb-4 hover:opacity-80 transition">
+                <a href="{{ url_for('home') }}" class="flex items-center gap-2 mb-4 hover:opacity-80 transition">
                     <div class="bg-white text-blue-600 p-2 rounded-lg">
                         <i class="fas fa-graduation-cap text-xl"></i>
                     </div>
@@ -22,7 +22,7 @@
             <h3 class="text-2xl font-bold text-gray-800">새 계정 만들기</h3>
             <p class="text-gray-500 text-sm mb-6">정보를 입력하여 성적 조회를 시작하세요.</p>
             
-            <form action="/afinder/signup" method="POST" class="space-y-4">
+            <form action="{{ url_for('signup') }}" method="POST" class="space-y-4">
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="text-xs font-bold text-gray-400 uppercase">아이디</label>
@@ -57,7 +57,7 @@
 
             <div class="mt-6 text-center">
                 <span class="text-sm text-gray-400">이미 계정이 있으신가요?</span>
-                <a href="/afinder/login" class="text-sm text-blue-600 font-bold hover:underline ml-1">로그인하기</a>
+                <a href="{{ url_for('login') }}" class="text-sm text-blue-600 font-bold hover:underline ml-1">로그인하기</a>
             </div>
         </div>
     </div>
